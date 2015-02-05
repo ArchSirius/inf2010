@@ -53,12 +53,19 @@ public class CircularSinglyLinkedList<Elem> implements Iterable<Elem>
          throw new IndexOutOfBoundsException();
          
       //A completer
+      Node node = last;      // node[0]
+      for(int i = 0; i < index; i++){
+         node = node.getNext();        // node[i]
+      }
+      return node.getElem();
    }
 
    //Creation du premier element de la liste
    private void init(Elem item) 
    {
       //A completer
+      last = new Node(item, last);
+      size = 1;
    }
 
    //Ajout d'un element a la fin de la liste
@@ -70,6 +77,10 @@ public class CircularSinglyLinkedList<Elem> implements Iterable<Elem>
       else 
       { 
          //A completer
+         Node newNode = new Node(item, last.getNext());
+         last.setNext(newNode);
+         last = newNode;
+         size++;
       }
    }
 
@@ -90,6 +101,13 @@ public class CircularSinglyLinkedList<Elem> implements Iterable<Elem>
       else 
       {
          //A completer
+         Node node = last;      // node[0]
+         for(int i = 0; i < index; i++) {
+            node = node.getNext();        // node[i - 1]
+         }
+         Node newNode = new Node(item, node.getNext());
+         node.setNext(newNode);
+         size++;
       }
    }
 
@@ -100,6 +118,11 @@ public class CircularSinglyLinkedList<Elem> implements Iterable<Elem>
          throw new IndexOutOfBoundsException();
       
       //A completer
+      Node node = last;      // node[0]
+      for(int i = 0; i < index - 1; i++) {
+         node = node.getNext();        // node[i - 1]
+      }
+      node.setNext(node.getNext().getNext());
    }
 
    // Methode requise par l'interface Iterable
@@ -198,3 +221,4 @@ public class CircularSinglyLinkedList<Elem> implements Iterable<Elem>
       
       System.out.println("\n");
    }
+}
