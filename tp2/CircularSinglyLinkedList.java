@@ -64,7 +64,8 @@ public class CircularSinglyLinkedList<Elem> implements Iterable<Elem>
    private void init(Elem item) 
    {
       //A completer
-      last = new Node(item, last);
+      last = new Node(item, null);
+      last.setNext(last);
       size = 1;
    }
 
@@ -119,10 +120,11 @@ public class CircularSinglyLinkedList<Elem> implements Iterable<Elem>
       
       //A completer
       Node node = last;      // node[0]
-      for(int i = 0; i < index - 1; i++) {
+      for(int i = 0; i < index -1; i++) {
          node = node.getNext();        // node[i - 1]
       }
       node.setNext(node.getNext().getNext());
+      size--;
    }
 
    // Methode requise par l'interface Iterable
