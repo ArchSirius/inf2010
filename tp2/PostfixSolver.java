@@ -19,6 +19,7 @@ public class PostfixSolver
          //L'expression est separee en tokens selon les espaces
          for(String token : s.split("\\s")) 
          {
+             
              if( token.equals("+")  || token.equals("-") || token.equals("*") || token.equals("/") )
              {
                  switch (token)
@@ -39,7 +40,8 @@ public class PostfixSolver
              }
              else
              {
-                stack.push(Double.parseDouble(token));
+                if(token.matches("^[0-9]+\\.?[0-9]*$"))
+                    stack.push(Double.parseDouble(token));
              }
             
             
