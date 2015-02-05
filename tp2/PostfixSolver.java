@@ -19,8 +19,32 @@ public class PostfixSolver
          //L'expression est separee en tokens selon les espaces
          for(String token : s.split("\\s")) 
          {
-            //Completez
+             if( token.equals("+")  || token.equals("-") || token.equals("*") || token.equals("/") )
+             {
+                 switch (token)
+                 {
+                     case "+":
+                         stack.push(stack.pop() + stack.pop());
+                         break;
+                     case "-":
+                         stack.push(stack.pop() - stack.pop());
+                         break;
+                     case "*":
+                         stack.push(stack.pop() * stack.pop());
+                         break;
+                     case "/":
+                         stack.push(stack.pop() / stack.pop());
+                 }
+                         
+             }
+             else
+             {
+                stack.push(Double.parseDouble(token));
+             }
+            
+            
          }
+         
          
          System.out.println("Le resultat de l'expression est: "+stack.pop());
          
