@@ -1,8 +1,9 @@
 JAVAC=javac -encoding UTF-8
 JFLAGS = -cfe
-SOURCES = $(wildcard *.java)
+#SOURCES = $(wildcard *.java)
+SOURCES = PostfixSolver.java
 CLASSES = $(SOURCES:.java=.class)
-MAIN = CircularSinglyLinkedList
+MAIN = PostfixSolver
 EXECUTABLE = TP2.jar
 
 
