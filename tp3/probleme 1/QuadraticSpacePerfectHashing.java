@@ -61,7 +61,7 @@ public class QuadraticSpacePerfectHashing<AnyType>
          a = b = 0;
          
          // A completer	
-         items = (AnyType[])new Object[1];
+         items = (AnyType[]) new Object[1];
          items[0]	= array.get(0);
          return;
       }
@@ -71,7 +71,7 @@ public class QuadraticSpacePerfectHashing<AnyType>
          items = null;
          
          // A completer
-         items = (AnyType[])new Object[array.size() * array.size()];
+         items = (AnyType[]) new Object[array.size() * array.size()];
          a = generator.nextInt() % p;
          b = generator.nextInt() % p;
          for(AnyType item : array){

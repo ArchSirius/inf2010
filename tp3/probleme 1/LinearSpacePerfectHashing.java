@@ -39,25 +39,36 @@ public class LinearSpacePerfectHashing<AnyType>
          a = b = 0;
          
          // A completer
-         data = ( QuadraticSpacePerfectHashing<AnyType>[]) new Object[1];
-         data[0] = array.get(0);
+         data = (QuadraticSpacePerfectHashing<AnyType>[]) new QuadraticSpacePerfectHashing<?>[1];
+         ArrayList<AnyType> liste = new ArrayList<AnyType>();
+         liste.add(array.get(0));
+         data[0].SetArray(liste);
          return;
       }
       
       // A completer
-      data = null;
-         
-         // A completer
-         data = (QuadraticSpacePerfectHashing<AnyType>[])new Object[array.size()];
-         a = generator.nextInt() % p;
-         b = generator.nextInt() % p;
-/*
-         for(AnyType item : array){
-            int index = (( a*x.hashCode() + b ) % p ) % data.length;
-            while(index < 0){
-               index += array.size();
+      data = (QuadraticSpacePerfectHashing<AnyType>[]) new QuadraticSpacePerfectHashing<?>[array.size()];
+      a = generator.nextInt() % p;
+      b = generator.nextInt() % p;
+      for(AnyType item : array){
+         int index = ((a * item.hashCode() + b ) % p ) % array.size();
+         while(index < 0){
+            index += array.size();
+         }
+         ArrayList<AnyType> liste = new ArrayList<AnyType>();
+         if(data[index] != null){
+            for(AnyType quaditem : data[index].items){
+               if(quaditem != null){
+                  liste.add(quaditem);
+               }
             }
-            data[index] = item;*/
+            liste.add(item);
+            data[index].SetArray(liste);
+         } else{
+            liste.add(item);
+            data[index] = new QuadraticSpacePerfectHashing<AnyType>(liste);
+         }
+      }
    }
    
    public int Size()
