@@ -75,7 +75,11 @@ public class QuadraticSpacePerfectHashing<AnyType>
          a = generator.nextInt() % p;
          b = generator.nextInt() % p;
          for(AnyType item : array){
-            items[((a * item.hashCode() + b) % p) % (array.size() * array.size())] = item;
+            int index = ((a * item.hashCode() + b ) % p ) % (array.size() * array.size());
+            while(index < 0){
+               index += (array.size() * array.size());
+            }
+            items[index] = item;
          }
          
       }
@@ -88,11 +92,14 @@ public class QuadraticSpacePerfectHashing<AnyType>
       // A completer
       boolean occupe[] = new boolean[array.size() * array.size()];
       for(AnyType item : array){
-         int i = ((a * item.hashCode() + b) % p) % (array.size() * array.size());
-         if(occupe[i]){
+         int index = ((a * item.hashCode() + b ) % p ) % (array.size() * array.size());
+         while(index < 0){
+            index += (array.size() * array.size());
+         }
+         if(occupe[index]){
             return false;
          } else{
-            occupe[i] = true;
+            occupe[index] = true;
          }
       }
       
