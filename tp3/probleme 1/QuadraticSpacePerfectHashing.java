@@ -53,13 +53,16 @@ public class QuadraticSpacePerfectHashing<AnyType>
       if(array == null || array.size() == 0)
       {
          // A completer
+         items = null;
          return;
       }
       if(array.size() == 1)
       {
          a = b = 0;
          
-         // A completer			
+         // A completer	
+         items = (AnyType[])new Object[1];
+         items[0]	= array.get(0);
          return;
       }
       
@@ -68,6 +71,12 @@ public class QuadraticSpacePerfectHashing<AnyType>
          items = null;
          
          // A completer
+         items = (AnyType[])new Object[array.size() * array.size()];
+         a = generator.nextInt() % p;
+         b = generator.nextInt() % p;
+         for(AnyType item : array){
+            items[((a * item.hashCode() + b) % p) % (array.size() * array.size())] = item;
+         }
          
       }
       while( collisionExists( array ) );
@@ -77,6 +86,15 @@ public class QuadraticSpacePerfectHashing<AnyType>
    private boolean collisionExists(ArrayList<AnyType> array)
    {
       // A completer
+      boolean occupe[] = new boolean[array.size() * array.size()];
+      for(AnyType item : array){
+         int i = ((a * item.hashCode() + b) % p) % (array.size() * array.size());
+         if(occupe[i]){
+            return false;
+         } else{
+            occupe[i] = true;
+         }
+      }
       
       return false;
    }
