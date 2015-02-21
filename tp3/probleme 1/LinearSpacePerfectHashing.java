@@ -50,21 +50,30 @@ public class LinearSpacePerfectHashing<AnyType>
       data = (QuadraticSpacePerfectHashing<AnyType>[]) new QuadraticSpacePerfectHashing<?>[array.size()];
       a = generator.nextInt() % p;
       b = generator.nextInt() % p;
+      // Insère individuellement chaque élément
       for(AnyType item : array){
+         // Hashage linéaire
          int index = ((a * item.hashCode() + b ) % p ) % array.size();
          while(index < 0){
             index += array.size();
          }
+
+         // Hashage quadratique
+         // liste temporaire
          ArrayList<AnyType> liste = new ArrayList<AnyType>();
          if(data[index] != null){
+         // On copie tous les éléments non-nuls déjà présents
             for(AnyType quaditem : data[index].items){
                if(quaditem != null){
                   liste.add(quaditem);
                }
             }
+            // ajout de l'élément en cours
             liste.add(item);
+            // re-hashage quadratique
             data[index].SetArray(liste);
          } else{
+            // liste de 1 éléments à ajouter au hash quadratique
             liste.add(item);
             data[index] = new QuadraticSpacePerfectHashing<AnyType>(liste);
          }
