@@ -129,15 +129,16 @@ public class RedBlackTree<T extends Comparable<? super T> >
 
    private void insertionCase3( RBNode<T> X )
    {
-      if(X.parent == null
-      || X.uncle() == null
-      || X.grandParent() == null)
+      if(X.parent == null)
          return;
-      if(X.parent.isRed() && X.uncle().isRed())
+      if(X.parent.isRed()
+      && X.uncle() != null ? X.uncle().isRed() : true)
       {
          X.parent.setToBlack();
-         X.uncle().setToBlack();
-         X.grandParent().setToRed();
+         if(X.uncle() != null)
+            X.uncle().setToBlack();
+         if(X.grandParent() != null)
+            X.grandParent().setToRed();
 
          insertionCases(X.grandParent());
       }
@@ -147,12 +148,11 @@ public class RedBlackTree<T extends Comparable<? super T> >
    private void insertionCase4( RBNode<T> X )
    {
       if(X.parent == null
-      && X.uncle() == null
       && X.grandParent() == null)
          return;
 
       if(X.parent.isRed()
-      && X.uncle().isBlack())
+      && X.uncle() != null ? X.uncle().isBlack() : true)
       {
 
          if(X == X.parent.leftChild
@@ -179,12 +179,11 @@ public class RedBlackTree<T extends Comparable<? super T> >
    private void insertionCase5( RBNode<T> X )
    {
       if(X.parent == null
-      && X.uncle() == null
       && X.grandParent() == null)
          return;
 
       if(X.parent.isRed()
-      && X.uncle().isBlack())
+      && X.uncle() != null ? X.uncle().isBlack() : true)
       {
 
          if(X == X.parent.rightChild
