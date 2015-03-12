@@ -82,7 +82,12 @@ public class HashFunctions
     */
    public static ArrayList<Integer> randomIntegers(int length)
    {
-      return null;
+      Random generator = new Random( System.nanoTime() );
+      ArrayList<Integer> liste = new ArrayList<Integer>();
+      for(int i = 0; i < length; i++){
+        liste.add(generator.nextInt());
+      }
+      return liste;
    }
 }
 
