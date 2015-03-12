@@ -129,8 +129,10 @@ public class RedBlackTree<T extends Comparable<? super T> >
 
    private void insertionCase3( RBNode<T> X )
    {
-      if(X.parent == null)
-          return;
+      if(X.parent == null
+      || X.uncle() == null
+      || X.grandParent() == null)
+         return;
       if(X.parent.isRed() && X.uncle().isRed())
       {
          X.parent.setToBlack();
