@@ -110,25 +110,43 @@ public class RedBlackTree<T extends Comparable<? super T> >
    
    private void insertionCase1 ( RBNode<T> X )
    {
-      // A MODIFIER/COMPLÉTER
+ 
+       if(X == root)
+           X.setToBlack();
+           
       insertionCase2( X );
    }
 
    private void insertionCase2( RBNode<T> X )
    {
-      // A MODIFIER/COMPLÉTER
-      insertionCase3( X );
+      if(!X.parent.isBlack())
+        insertionCase3( X );
+      else 
+          return;
    }
 
    private void insertionCase3( RBNode<T> X )
    {
-      // A MODIFIER/COMPLÉTER
+      if(X.parent.isRed() && X.uncle().isRed())
+      {
+          X.parent.setToBlack();
+          X.uncle().setToBlack();
+          X.grandParent().setToRed();
+          
+          insertionCases(X.grandParent());
+      }
       insertionCase4( X );
    }
 
    private void insertionCase4( RBNode<T> X )
    {
-      // A MODIFIER/COMPLÉTER
+       if(
+      //if(X.parent.isRed()
+      //&& X.uncle().isBlack()
+      //&&(X.parent.leftChild == X
+      //&& X.parent == X.grandParent().rightChild)
+              )
+          
       insertionCase5( X );
    }
 
@@ -233,20 +251,34 @@ public class RedBlackTree<T extends Comparable<? super T> >
       
       RBNode<T> grandParent()
       {
-         // À COMPLÉTER
-         return null;
+         if(parent == null || parent.parent == null)
+            return null;
+         return parent.parent;
       }
       
       RBNode<T> uncle()
       {
-         // À COMPLÉTER
-         return null;
+         if (parent == null)
+             return null;
+         return parent.sibling();
       }
       
       RBNode<T> sibling()
       {
-         // À COMPLÉTER
-         return null;
+         if(parent == null)
+             return null;
+         if(parent.rightChild == this)
+         {
+             if(parent.leftChild == null)
+                 return null;
+             return parent.leftChild;
+         }
+         else
+         {
+             if(parent.leftChild == null)
+                 return null;
+             return parent.rightChild;
+         }
       }
       
       public String toString()
