@@ -41,6 +41,6 @@ public class RedBlackTreeMain
       tree.printTreePostOrder();
       
       // Affichage par niveaux
-      tree.printTreeLevelOrder(); 
+//      tree.printTreeLevelOrder(); 
    }
 }

@@ -129,6 +129,8 @@ public class RedBlackTree<T extends Comparable<? super T> >
 
    private void insertionCase3( RBNode<T> X )
    {
+      if(X.parent == null)
+          return;
       if(X.parent.isRed() && X.uncle().isRed())
       {
          X.parent.setToBlack();
@@ -168,7 +170,7 @@ public class RedBlackTree<T extends Comparable<? super T> >
          }
 
       }
-
+      
       insertionCase5( X );
    }
 
@@ -208,13 +210,34 @@ public class RedBlackTree<T extends Comparable<? super T> >
    
    private void rotateLeft( RBNode<T> G )
    {
-      // A MODIFIER/COMPLÉTER
+	RBNode<T> root;
+	root = G.parent;
+        G.parent.leftChild = G.rightChild;
+        
+        G.rightChild = root.leftChild.leftChild;
+	
+	root.leftChild.leftChild = G;
+        
+        
+	
       return; 
    }
    
    private void rotateRight( RBNode<T> G )
    {
-      // A MODIFIER/COMPLÉTER
+   
+       
+       
+   
+	RBNode<T> root;
+	root = G.parent;
+	
+	G.parent.rightChild = G.leftChild;
+	
+	G.leftChild = root.rightChild.rightChild;
+	
+	root.rightChild.rightChild = G;
+     
       return; 
    }
 
