@@ -1,4 +1,4 @@
-﻿import java.util.LinkedList;
+import java.util.LinkedList;
 import java.util.Queue;
 
 public class RedBlackTree<T extends Comparable<? super T> > 
@@ -110,50 +110,100 @@ public class RedBlackTree<T extends Comparable<? super T> >
    
    private void insertionCase1 ( RBNode<T> X )
    {
- 
-       if(X == root)
-           X.setToBlack();
+      if(X == root)
+         X.setToBlack();
            
       insertionCase2( X );
    }
 
    private void insertionCase2( RBNode<T> X )
    {
-      if(!X.parent.isBlack())
-        insertionCase3( X );
-      else 
-          return;
+      if(X.parent != null)
+      {
+         if(X.parent.isRed())
+            insertionCase3( X );
+         else 
+            return;
+      }
    }
 
    private void insertionCase3( RBNode<T> X )
    {
       if(X.parent.isRed() && X.uncle().isRed())
       {
-          X.parent.setToBlack();
-          X.uncle().setToBlack();
-          X.grandParent().setToRed();
-          
-          insertionCases(X.grandParent());
+         X.parent.setToBlack();
+         X.uncle().setToBlack();
+         X.grandParent().setToRed();
+
+         insertionCases(X.grandParent());
       }
       insertionCase4( X );
    }
 
    private void insertionCase4( RBNode<T> X )
    {
-       if(
-      //if(X.parent.isRed()
-      //&& X.uncle().isBlack()
-      //&&(X.parent.leftChild == X
-      //&& X.parent == X.grandParent().rightChild)
-              )
-          
+      if(X.parent == null
+      && X.uncle() == null
+      && X.grandParent() == null)
+         return;
+
+      if(X.parent.isRed()
+      && X.uncle().isBlack())
+      {
+
+         if(X == X.parent.leftChild
+         && X.parent == X.grandParent().rightChild)
+         {
+            rotateRight(X.parent);
+            if(X.rightChild != null)
+               insertionCase5(X.rightChild);
+         }
+
+         else if(X == X.parent.rightChild
+              && X.parent == X.grandParent().leftChild)
+         {
+            rotateLeft(X.parent);
+            if(X.leftChild != null)
+               insertionCase5(X.leftChild);
+         }
+
+      }
+
       insertionCase5( X );
    }
 
    private void insertionCase5( RBNode<T> X )
    {
-      // A MODIFIER/COMPLÉTER
-      return; 
+      if(X.parent == null
+      && X.uncle() == null
+      && X.grandParent() == null)
+         return;
+
+      if(X.parent.isRed()
+      && X.uncle().isBlack())
+      {
+
+         if(X == X.parent.rightChild
+         && X.parent == X.grandParent().rightChild)
+         {
+            //X.grandParent() est noir
+            X.grandParent().setToRed();
+            //X.parent est rouge
+            X.parent.setToBlack();
+            rotateLeft(X.grandParent());
+         }
+
+         else if(X == X.parent.leftChild
+         && X.parent == X.grandParent().leftChild)
+         {
+            //X.grandParent() est noir
+            X.grandParent().setToRed();
+            //X.parent est rouge
+            X.parent.setToBlack();
+            rotateRight(X.grandParent());
+         }
+
+      }
    }
    
    private void rotateLeft( RBNode<T> G )
@@ -251,34 +301,34 @@ public class RedBlackTree<T extends Comparable<? super T> >
       
       RBNode<T> grandParent()
       {
-         if(parent == null || parent.parent == null)
+         if(parent == null)
             return null;
          return parent.parent;
       }
       
       RBNode<T> uncle()
       {
+         /*
          if (parent == null)
-             return null;
+            return null;
          return parent.sibling();
+         */
+         return parent != null ? parent.sibling() : null;
       }
       
       RBNode<T> sibling()
       {
-         if(parent == null)
-             return null;
-         if(parent.rightChild == this)
+         if(parent != null)
          {
-             if(parent.leftChild == null)
-                 return null;
-             return parent.leftChild;
+            if(parent.rightChild == this)
+               return parent.leftChild;
+   
+            else if(parent.leftChild == null)
+            {
+               return parent.rightChild;
+            }
          }
-         else
-         {
-             if(parent.leftChild == null)
-                 return null;
-             return parent.rightChild;
-         }
+         return null;
       }
       
       public String toString()

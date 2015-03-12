@@ -1,4 +1,4 @@
-﻿public class RedBlackTreeMain 
+public class RedBlackTreeMain
 {
    public static void main(String[] args)
    {
