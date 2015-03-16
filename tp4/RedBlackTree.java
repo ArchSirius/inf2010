@@ -50,7 +50,16 @@ public class RedBlackTree<T extends Comparable<? super T> >
    
    private T find(RBNode<T> current, int key)
    {
-      // À COMPLÉTER
+      if(current.value != null && current.value.hashCode() == key)
+         return current.value;
+      if(current.value != null
+      && current.value.hashCode() > key
+      && current.leftChild != null)
+         return find(current.leftChild, key);
+      if(current.value != null
+      && current.value.hashCode() < key
+      && current.rightChild != null)
+         return find(current.rightChild, key);
       return null;
    }
    
@@ -132,7 +141,8 @@ public class RedBlackTree<T extends Comparable<? super T> >
       if(X.parent == null)
          return;
       if(X.parent.isRed()
-      && X.uncle() != null ? X.uncle().isRed() : true)
+      && (X.uncle() != null
+       && X.uncle().isRed()))
       {
          X.parent.setToBlack();
          if(X.uncle() != null)
@@ -150,11 +160,10 @@ public class RedBlackTree<T extends Comparable<? super T> >
       if(X.parent == null
       && X.grandParent() == null)
          return;
-
       if(X.parent.isRed()
-      && X.uncle() != null ? X.uncle().isBlack() : true)
+      && (X.uncle() != null
+       && X.uncle().isBlack()))
       {
-
          if(X == X.parent.leftChild
          && X.parent == X.grandParent().rightChild)
          {
@@ -183,7 +192,7 @@ public class RedBlackTree<T extends Comparable<? super T> >
          return;
 
       if(X.parent.isRed()
-      && X.uncle() != null ? X.uncle().isBlack() : true)
+      && X.uncle() != null ? X.uncle().isBlack() : false)
       {
 
          if(X == X.parent.rightChild
@@ -211,35 +220,30 @@ public class RedBlackTree<T extends Comparable<? super T> >
    
    private void rotateLeft( RBNode<T> G )
    {
-	RBNode<T> root;
-	root = G.parent;
-        G.parent.leftChild = G.rightChild;
-        
-        G.rightChild = root.leftChild.leftChild;
+	RBNode<T> root = G.parent;
+   RBNode<T> x = G.rightChild;
+   
+   root.leftChild = x;
+   x.parent = root;
+   G.parent = x;
+   G.rightChild = x.leftChild;
+   x.leftChild = G;
 	
-	root.leftChild.leftChild = G;
-        
-        
-	
-      return; 
+   return; 
    }
    
    private void rotateRight( RBNode<T> G )
    {
-   
-       
-       
-   
-	RBNode<T> root;
-	root = G.parent;
+	RBNode<T> root = G.parent;
+   RBNode<T> x = G.leftChild;
 	
-	G.parent.rightChild = G.leftChild;
-	
-	G.leftChild = root.rightChild.rightChild;
-	
-	root.rightChild.rightChild = G;
-     
-      return; 
+	root.rightChild = x;
+   x.parent = root;
+   G.parent = x;
+   G.leftChild = x.rightChild;
+   x.rightChild = G;
+
+   return; 
    }
 
    public void printTreePreOrder()
@@ -346,11 +350,7 @@ public class RedBlackTree<T extends Comparable<? super T> >
          {
             if(parent.rightChild == this)
                return parent.leftChild;
-   
-            else if(parent.leftChild == null)
-            {
-               return parent.rightChild;
-            }
+            return parent.rightChild;
          }
          return null;
       }
