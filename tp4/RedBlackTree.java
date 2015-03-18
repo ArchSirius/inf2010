@@ -315,7 +315,21 @@ public class RedBlackTree<T extends Comparable<? super T> >
          
          q.add(root);
          
-         //  À COMPLÉTER
+         while(!q.isEmpty())
+         {
+            // sélection des noeuds du niveau actuel
+            RBNode<T> P = q.poll();
+            // format racine
+            if(P != root)
+               System.out.print(", ");
+            // affichage
+            System.out.print("{" + P.value + " (" + (P.isBlack() ? "black" : "red") + ")}");
+            // insertions d'un niveau après le niveau actuel
+            if(P.leftChild != null && P.leftChild.value != null)
+               q.add(P.leftChild);
+            if(P.rightChild != null && P.rightChild.value != null)
+              q.add(P.rightChild);
+        }
          
          System.out.println( " )");
       }
