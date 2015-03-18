@@ -261,7 +261,17 @@ public class RedBlackTree<T extends Comparable<? super T> >
    
    private void printTreePreOrder( RBNode<T> P )
    {
-      // A MODIFIER/COMPLÉTER
+      // format racine
+      if(P != root)
+         System.out.print(", ");
+      // N
+      System.out.print("{" + P.value + " (" + (P.isBlack() ? "black" : "red") + ")}");
+      // G
+      if(P.leftChild != null && P.leftChild.value != null)
+         printTreePreOrder(P.leftChild);
+      // D
+      if(P.rightChild != null && P.rightChild.value != null)
+         printTreePreOrder(P.rightChild);
       return; 
    }
    
@@ -273,14 +283,23 @@ public class RedBlackTree<T extends Comparable<? super T> >
       {
          System.out.print( "PostOrdre ( ");
          printTreePostOrder( root );
-         System.out.println( ")");
+         System.out.println( " )");
       }
       return;
    }
   
    private void printTreePostOrder( RBNode<T> P )
    {
-      // A MODIFIER/COMPLÉTER
+      // G
+      if(P.leftChild != null && P.leftChild.value != null)
+         printTreePostOrder(P.leftChild);
+      // D
+      if(P.rightChild != null && P.rightChild.value != null)
+         printTreePostOrder(P.rightChild);
+      // N
+      System.out.print("{" + P.value + " (" + (P.isBlack() ? "black" : "red") + ")}");
+      if(P != root)
+         System.out.print(", ");
       return; 
    }
    
