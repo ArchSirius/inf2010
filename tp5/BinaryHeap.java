@@ -10,8 +10,11 @@ public class BinaryHeap<AnyType extends Comparable<? super AnyType>> //implement
    @SuppressWarnings("unchecked")
    public BinaryHeap( AnyType [ ] items )
    {
-      // COMPLETER
-      // invoquer buildMinHeap( );    
+      currentSize = 0;
+      array = (AnyType[]) new Comparable[ DEFAULT_CAPACITY + 1 ];
+      for(AnyType item : items)
+         insert(item);
+      buildMinHeap();
    }
 
    public void insert( AnyType x )
@@ -28,8 +31,8 @@ public class BinaryHeap<AnyType extends Comparable<? super AnyType>> //implement
 
    public void buildMinHeap( )
    {
-      // COMPLETER
-      // invoquer : percolateDownMinHeap(array, indice, currentSize, true );
+      for(int indice = currentSize / 2; indice > 0; indice--)
+         percolateDownMinHeap(array, indice, currentSize, true );
    }
 
    public void buildMaxHeap( )
@@ -73,24 +76,22 @@ public class BinaryHeap<AnyType extends Comparable<? super AnyType>> //implement
    void percolateDownMinHeap( AnyType[] a, int hole, int size, boolean isHeap )
    {
       // inspiré des notes de cours
-      for(int i = size / 2; i > (isHeap ? 0 : -1); i--) {
-         int child;
-         AnyType tmp = a[hole];
+      int child;
+      AnyType tmp = a[hole];
 
-         for(; hole * (isHeap ? 2 * i : 2 * i + 1) <= size; hole = child) {
-            child = leftChild(hole, isHeap); //Considérer fils de gauche
+      for(; hole * (isHeap ? 2 * hole : 2 * hole + 1) <= size; hole = child) {
+         child = leftChild(hole, isHeap); //Considérer fils de gauche
 
-            if( child != size &&   // il y a deux fils
-            a[child + 1].compareTo(a[child]) < 0)   //et fils droit<fils gauche
-               child++; //Considérer fils droit
-            if(a[child].compareTo(tmp) < 0) //fils considéré< élément à percoler
-               a[hole] = a[child];   //Remonter le fils courrent de un niveau
-            else
-               break; //sortir de la boucle. L’élément à percoler sera inséré à position hole
-         }
-
-         a[hole] = tmp; // Insérer l’élément à percoler à la position hole 
+         if( child != size &&   // il y a deux fils
+         a[child + 1].compareTo(a[child]) < 0)   //et fils droit<fils gauche
+            child++; //Considérer fils droit
+         if(a[child].compareTo(tmp) < 0) //fils considéré< élément à percoler
+            a[hole] = a[child];   //Remonter le fils courrent de un niveau
+         else
+            break; //sortir de la boucle. L’élément à percoler sera inséré à position hole
       }
+
+      a[hole] = tmp; // Insérer l’élément à percoler à la position hole 
    }
 
    /**
@@ -141,6 +142,7 @@ public class BinaryHeap<AnyType extends Comparable<? super AnyType>> //implement
       String outputString = "";
 
       // COMPLETER
+      outputString += array[0];
 
       return outputString;
    }
