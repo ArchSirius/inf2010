@@ -17,9 +17,13 @@ public class BinaryHeap<AnyType extends Comparable<? super AnyType>> //implement
    public void insert( AnyType x )
    {
       if( currentSize + 1 == array.length )
-      doubleArray( );
+         doubleArray( );
 
-      // COMPLETER
+      // inspiré des notes de cours
+      int hole = ++currentSize;
+      for(; hole > 1 && x.compareTo(array[hole / 2]) < 0; hole /= 2)
+         array[hole] = array[hole / 2];   // swap parent & hole
+      array[hole] = x;  // insert x in hole
    }
 
    public void buildMinHeap( )
@@ -68,7 +72,25 @@ public class BinaryHeap<AnyType extends Comparable<? super AnyType>> //implement
    private static <AnyType extends Comparable<? super AnyType>>
    void percolateDownMinHeap( AnyType[] a, int hole, int size, boolean isHeap )
    {
-      // COMPLETER
+      // inspiré des notes de cours
+      for(int i = size / 2; i > (isHeap ? 0 : -1); i--) {
+         int child;
+         AnyType tmp = a[hole];
+
+         for(; hole * (isHeap ? 2 * i : 2 * i + 1) <= size; hole = child) {
+            child = leftChild(hole, isHeap); //Considérer fils de gauche
+
+            if( child != size &&   // il y a deux fils
+            a[child + 1].compareTo(a[child]) < 0)   //et fils droit<fils gauche
+               child++; //Considérer fils droit
+            if(a[child].compareTo(tmp) < 0) //fils considéré< élément à percoler
+               a[hole] = a[child];   //Remonter le fils courrent de un niveau
+            else
+               break; //sortir de la boucle. L’élément à percoler sera inséré à position hole
+         }
+
+         a[hole] = tmp; // Insérer l’élément à percoler à la position hole 
+      }
    }
 
    /**
