@@ -10,10 +10,10 @@ public class BinaryHeap<AnyType extends Comparable<? super AnyType>> //implement
    @SuppressWarnings("unchecked")
    public BinaryHeap( AnyType [ ] items )
    {
-      currentSize = 0;
-      array = (AnyType[]) new Comparable[ DEFAULT_CAPACITY + 1 ];
-      for(AnyType item : items)
-         insert(item);
+      currentSize = items.length;
+      array = (AnyType[]) new Comparable[currentSize + 1];
+      for(int i = 0; i < currentSize; i++)
+         array[i + 1] = items[i];
       buildMinHeap();
    }
 
@@ -79,19 +79,19 @@ public class BinaryHeap<AnyType extends Comparable<? super AnyType>> //implement
       int child;
       AnyType tmp = a[hole];
 
-      for(; hole * (isHeap ? 2 * hole : 2 * hole + 1) <= size; hole = child) {
-         child = leftChild(hole, isHeap); //Considérer fils de gauche
-
-         if( child != size &&   // il y a deux fils
-         a[child + 1].compareTo(a[child]) < 0)   //et fils droit<fils gauche
+      for(; hole * 2 <= size; hole = child) {
+         child = hole * 2; //Considérer fils de gauche
+         
+         if(child != size &&  // il y a deux fils
+         a[child + 1].compareTo(a[child]) < 0)  //et fils droit < fils gauche
             child++; //Considérer fils droit
-         if(a[child].compareTo(tmp) < 0) //fils considéré< élément à percoler
-            a[hole] = a[child];   //Remonter le fils courrent de un niveau
+         if(a[child].compareTo(tmp) < 0)  //fils considéré < élément à percoler
+            a[hole] = a[child];  //Remonter le fils courrent de un niveau
          else
             break; //sortir de la boucle. L’élément à percoler sera inséré à position hole
       }
 
-      a[hole] = tmp; // Insérer l’élément à percoler à la position hole 
+        a[hole] = tmp; // Insérer l’élément à percoler à la position hole 
    }
 
    /**
@@ -142,7 +142,6 @@ public class BinaryHeap<AnyType extends Comparable<? super AnyType>> //implement
       String outputString = "";
 
       // COMPLETER
-      outputString += array[0];
 
       return outputString;
    }
