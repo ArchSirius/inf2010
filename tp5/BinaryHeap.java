@@ -37,8 +37,8 @@ public class BinaryHeap<AnyType extends Comparable<? super AnyType>> //implement
 
    public void buildMaxHeap( )
    {
-      // COMPLETER
-      // invoquer : percolateDownMaxHeap(array, i, currentSize, true );
+      for(int indice = currentSize / 2; indice > 0; indice--)
+         percolateDownMaxHeap(array, indice, currentSize, true );
    }
 
    public boolean isEmpty( )
@@ -91,7 +91,7 @@ public class BinaryHeap<AnyType extends Comparable<? super AnyType>> //implement
             break; //sortir de la boucle. L’élément à percoler sera inséré à position hole
       }
 
-        a[hole] = tmp; // Insérer l’élément à percoler à la position hole 
+        a[hole] = tmp; // Insérer l’élément à percoler à la position hole
    }
 
    /**
@@ -103,7 +103,23 @@ public class BinaryHeap<AnyType extends Comparable<? super AnyType>> //implement
    private static <AnyType extends Comparable<? super AnyType>>
    void percolateDownMaxHeap( AnyType[] a, int hole, int size, boolean isHeap )
    {
-      // COMPLETER
+      // inspiré des notes de cours
+      int child;
+      AnyType tmp = a[hole];
+
+      for(; hole * 2 <= size; hole = child) {
+         child = hole * 2; //Considérer fils de gauche
+         
+         if(child != size &&  // il y a deux fils
+         a[child + 1].compareTo(a[child]) > 0)  //et fils droit < fils gauche
+            child++; //Considérer fils droit
+         if(a[child].compareTo(tmp) > 0)  //fils considéré < élément à percoler
+            a[hole] = a[child];  //Remonter le fils courrent de un niveau
+         else
+            break; //sortir de la boucle. L’élément à percoler sera inséré à position hole
+      }
+
+        a[hole] = tmp; // Insérer l’élément à percoler à la position hole
    }
 
    public static <AnyType extends Comparable<? super AnyType>>
