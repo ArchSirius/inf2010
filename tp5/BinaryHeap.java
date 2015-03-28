@@ -139,43 +139,93 @@ public class BinaryHeap<AnyType extends Comparable<? super AnyType>> //implement
 
    public String nonRecursivePrintFancyTree()
    {
-      String outputString = "|__";
+      String outputString = "";
       int index = 1;
 
 
       // COMPLETER
       
      
-      outputString += "\n";
+      outputString += "";
       int i = 0;
-      while(i <6){
-            int ind = index;
-            outputString += array[index] + "\n";
+      int z = 0;
+            
+      int j = 0;
+      int endindex = 0 ;
+      while(array[leftChild(endindex,true) + 1] != null)
+            { 
+                  endindex = leftChild(endindex,true) + 1;
+               
+            }
+            String _prefix = "";
+            String _preprefix = "";
+            String _prepreprefix = "";
+            String _preprepreprefix = "";
+            boolean yes = false;
+      while(true){
+            outputString += _prefix + "|__" + array[index] + "\n";
+          
+          
+            boolean isLeaf = index > currentSize/2;
+            
 
+            
+            _prepreprefix = _prefix;
+            z=0;
             while(array[leftChild(index, true)] != null)
             {
-               outputString += array[leftChild(index,true)] + "\n";
-               index = leftChild(index,true); 
-
-               
-            
-                 
+                
+                  
+                  _preprefix = _prefix;
+                  if( index%2 == 0 )
+                        _prefix += "|  "; // un | et trois espace
+                  else
+                        _prefix += "   " ; // quatre espaces
+                  outputString += _prefix + "|__" + array[leftChild(index,true)] + "\n";
+                  index = leftChild(index,true);
+                  z++;
+                  
             }
+            
+            
+            
+            isLeaf = index > currentSize/2;
+            if (array[index+1] == null) outputString += _prefix + "|__"  + "null\n";
+            
             index /=2;
-
+            if(array[leftChild(index/2,true)] != null)
+                   _prefix = _preprefix;
+            
             while(array[leftChild(index,true) + 1] != null)
-               { 
-                  outputString += array[leftChild(index,true) +1 ] + "\n";
+            {  
+               
+                  _preprefix = _prefix;
+                  if( index%2 == 0 )
+                        _prefix += "|  "; // un | et trois espace
+                  else
+                        _prefix += "   " ; // quatre espaces
+                  
+                  outputString += _prefix + "|__" + array[leftChild(index,true) +1 ] + "\n";
                   index = leftChild(index,true) + 1;
-               }
-
-               index = index/4;
-               if (i != 0)
-                  index = index/(2*i);
-               index =  leftChild(index,true) + 1 ;
-      
-            i++;
-
+                  z++;
+            }
+            //if(z == 2) _prepreprefix = _prefix;
+            if(array[leftChild(index/2,true)] != null && array[leftChild(index/2,true) + 1] != null)
+                _prefix = _preprefix;
+            if(index == endindex) break;
+            if (array[index] == null) outputString += _prefix + "|__"  + "null\n";
+            index /=2;
+            
+        
+            if(index % 2 !=0)
+               index /=2;
+            
+            while(index%2 == 0)
+               index++;   
+             i++;
+             if(z ==2){_prefix += "\b\b\b";} // si on a parcouru un sous arbre
+             if(z ==1 && i == 4){_prefix += "\b\b\b\b\b\b";} // si on a parcouru deux sous arbres
+             //if(j == 1) {_prefix = _preprepreprefix;}
       }
 
       
