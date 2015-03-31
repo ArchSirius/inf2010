@@ -34,13 +34,13 @@ public class BinaryHeap<AnyType extends Comparable<? super AnyType>> //implement
    public void buildMinHeap( )
    {
       for(int indice = currentSize / 2; indice > 0; indice--)
-         percolateDownMinHeap(array, indice, currentSize, true );
+         percolateDownMinHeap(array, indice, currentSize + 1, true );
    }
 
    public void buildMaxHeap( )
    {
       for(int indice = currentSize / 2; indice > 0; indice--)
-         percolateDownMaxHeap(array, indice, currentSize, true );
+         percolateDownMaxHeap(array, indice, currentSize + 1, true );
    }
 
    public boolean isEmpty( )
@@ -83,10 +83,10 @@ public class BinaryHeap<AnyType extends Comparable<? super AnyType>> //implement
       for( ; leftChild(hole, isHeap) < size; hole = child )
       {
          child = leftChild(hole, isHeap);
-         if( child != size - (isHeap ? 0 : 1) && a[child] != null &&
+         if( child != size - 1 &&
          a[ child + 1 ].compareTo( a[ child ])<0)
             child++;
-         if( a[child] != null && a[ child ].compareTo( tmp ) < 0 )
+         if( a[ child ].compareTo( tmp ) < 0 )
             a[ hole ] = a[ child ];
          else
             break;
@@ -109,10 +109,10 @@ public class BinaryHeap<AnyType extends Comparable<? super AnyType>> //implement
       for( ; leftChild(hole, isHeap) < size; hole = child )
       {
          child = leftChild(hole, isHeap);
-         if( child != size - (isHeap ? 0 : 1) && a[child] != null &&
+         if( child != size - 1 &&
          a[ child + 1 ].compareTo( a[ child ])>0)
             child++;
-         if( a[child] != null && a[ child ].compareTo( tmp ) > 0 )
+         if( a[ child ].compareTo( tmp ) > 0 )
             a[ hole ] = a[ child ];
          else
             break;
@@ -165,7 +165,7 @@ public class BinaryHeap<AnyType extends Comparable<? super AnyType>> //implement
 
    public String nonRecursivePrintFancyTree()
    {
-      String outputString = "";
+/*      String outputString = "";
       int index = 1;
 
 
@@ -256,7 +256,8 @@ public class BinaryHeap<AnyType extends Comparable<? super AnyType>> //implement
       }
 
       
-      return outputString;
+      return outputString;*/
+      return null;
    }
 
    public String printFancyTree( )
