@@ -1,3 +1,4 @@
+import java.util.Random;
 
 public class Main  
 {
@@ -58,6 +59,103 @@ public class Main
       /*
        * Ajouter appels pour repondre a la question
        **/
+      heap = new BinaryHeap<Integer>( );
+      long debut = 0;
+      long fin = 0;
+      int[] tab;
+
+      System.out.println("\nInsertion ordonnee");
+      for(numItems = 100; numItems <= 1000; numItems+=100){
+         // Debut de la zone de controle
+         debut = System.nanoTime();
+         for(i = 0; i < numItems; i++){
+            heap.insert(i);
+         }
+         fin = System.nanoTime() - debut;
+         // Fin de la zone de controle
+         System.out.println(numItems + "\t" + fin);
+      }
+
+      System.out.println("\nTableau ordonne");
+      for(numItems = 100; numItems <= 1000; numItems+=100){
+         tab = new int[numItems];
+         for(i = 0; i < numItems; i++){
+            tab[i] = i;
+         }
+         // Debut de la zone de controle
+         debut = System.nanoTime();
+         for(i = 0; i < numItems; i++){
+            heap.insert(tab[i]);
+         }
+         fin = System.nanoTime() - debut;
+         // Fin de la zone de controle
+         System.out.println(numItems + "\t" + fin);
+      }
+
+      System.out.println("\nInsertion inversee");
+      for(numItems = 100; numItems <= 1000; numItems+=100){
+         // Debut de la zone de controle
+         debut = System.nanoTime();
+         for(i = numItems; i < 0; i--){
+            heap.insert(i);
+         }
+         fin = System.nanoTime() - debut;
+         // Fin de la zone de controle
+         System.out.println(numItems + "\t" + fin);
+      }
+
+      System.out.println("\nTableau inverse");
+      for(numItems = 100; numItems <= 1000; numItems+=100){
+         tab = new int[numItems];
+         for(i = numItems; i < 0; i--){
+            tab[i] = i;
+         }
+         // Debut de la zone de controle
+         debut = System.nanoTime();
+         for(i = numItems; i < 0; i--){
+            heap.insert(tab[i]);
+         }
+         fin = System.nanoTime() - debut;
+         // Fin de la zone de controle
+         System.out.println(numItems + "\t" + fin);
+      }
+
+      // Genere les nombres aleatoires en dehors de la zone de controle
+      Random random = new Random();
+      random.setSeed(System.nanoTime());
+      int[] aleatoire = new int[1000];
+      for(i = 0; i < 1000; i++){
+         aleatoire[i] = random.nextInt();
+      }
+
+      System.out.println("\nInsertion non ordonnee");
+      for(numItems = 100; numItems <= 1000; numItems+=100){
+         // Debut de la zone de controle
+         debut = System.nanoTime();
+         for(i = 0; i < numItems; i++){
+            heap.insert(aleatoire[i]);
+         }
+         fin = System.nanoTime() - debut;
+         // Fin de la zone de controle
+         System.out.println(numItems + "\t" + fin);
+      }
+
+      System.out.println("\nTableau non ordonne");
+      for(numItems = 100; numItems <= 1000; numItems+=100){
+         tab = new int[numItems];
+         for(i = numItems; i < 0; i--){
+            tab[i] = aleatoire[i];
+         }
+         // Debut de la zone de controle
+         debut = System.nanoTime();
+         for(i = 0; i < numItems; i++){
+            heap.insert(tab[i]);
+         }
+         fin = System.nanoTime() - debut;
+         // Fin de la zone de controle
+         System.out.println(numItems + "\t" + fin);
+      }
+
    }
 
    private static <AnyType> 
