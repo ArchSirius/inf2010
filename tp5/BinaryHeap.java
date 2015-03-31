@@ -11,11 +11,13 @@ public class BinaryHeap<AnyType extends Comparable<? super AnyType>> //implement
    public BinaryHeap( AnyType [ ] items )
    {
       currentSize = items.length;
-      array = (AnyType[]) new Comparable[currentSize + 1];
-      for(int i = 0; i < currentSize; i++)
-         array[i + 1] = items[i];
-      buildMinHeap();
-   }
+      array = (AnyType[]) new Comparable[ ( currentSize + 2 ) * 11 / 10 ];
+      
+      int i = 1;
+      for( AnyType item : items )
+         array[ i++ ] = item;
+      buildMinHeap( );
+    }
 
    public void insert( AnyType x )
    {
@@ -75,23 +77,21 @@ public class BinaryHeap<AnyType extends Comparable<? super AnyType>> //implement
    private static <AnyType extends Comparable<? super AnyType>>
    void percolateDownMinHeap( AnyType[] a, int hole, int size, boolean isHeap )
    {
-      // inspiré des notes de cours
       int child;
-      AnyType tmp = a[hole];
-
-      for(; hole * 2 <= size; hole = child) {
-         child = hole * 2; //Considérer fils de gauche
-         
-         if(child != size &&  // il y a deux fils
-         a[child + 1].compareTo(a[child]) < 0)  //et fils droit < fils gauche
-            child++; //Considérer fils droit
-         if(a[child].compareTo(tmp) < 0)  //fils considéré < élément à percoler
-            a[hole] = a[child];  //Remonter le fils courrent de un niveau
+      AnyType tmp = a[ hole ];
+      
+      for( ; leftChild(hole, isHeap) < size; hole = child )
+      {
+         child = leftChild(hole, isHeap);
+         if( child != size - (isHeap ? 0 : 1) && a[child] != null &&
+         a[ child + 1 ].compareTo( a[ child ])<0)
+            child++;
+         if( a[child] != null && a[ child ].compareTo( tmp ) < 0 )
+            a[ hole ] = a[ child ];
          else
-            break; //sortir de la boucle. L’élément à percoler sera inséré à position hole
+            break;
       }
-
-        a[hole] = tmp; // Insérer l’élément à percoler à la position hole
+      a[ hole ] = tmp;
    }
 
    /**
@@ -103,35 +103,45 @@ public class BinaryHeap<AnyType extends Comparable<? super AnyType>> //implement
    private static <AnyType extends Comparable<? super AnyType>>
    void percolateDownMaxHeap( AnyType[] a, int hole, int size, boolean isHeap )
    {
-      // inspiré des notes de cours
       int child;
-      AnyType tmp = a[hole];
-
-      for(; hole * 2 <= size; hole = child) {
-         child = hole * 2; //Considérer fils de gauche
-         
-         if(child != size &&  // il y a deux fils
-         a[child + 1].compareTo(a[child]) > 0)  //et fils droit < fils gauche
-            child++; //Considérer fils droit
-         if(a[child].compareTo(tmp) > 0)  //fils considéré < élément à percoler
-            a[hole] = a[child];  //Remonter le fils courrent de un niveau
+      AnyType tmp = a[ hole ];
+      
+      for( ; leftChild(hole, isHeap) < size; hole = child )
+      {
+         child = leftChild(hole, isHeap);
+         if( child != size - (isHeap ? 0 : 1) && a[child] != null &&
+         a[ child + 1 ].compareTo( a[ child ])>0)
+            child++;
+         if( a[child] != null && a[ child ].compareTo( tmp ) > 0 )
+            a[ hole ] = a[ child ];
          else
-            break; //sortir de la boucle. L’élément à percoler sera inséré à position hole
+            break;
       }
-
-        a[hole] = tmp; // Insérer l’élément à percoler à la position hole
+      a[ hole ] = tmp;
    }
 
    public static <AnyType extends Comparable<? super AnyType>>
    void heapSort( AnyType [ ] a )
    {
-      // COMPLETER
+      for( int i = a.length / 2 - 1; i >= 0; i-- ) /* buildHeap */
+         percolateDownMaxHeap( a, i, a.length, false );
+      for( int i = a.length - 1; i > 0; i-- )
+      {
+         swapReferences( a, 0, i ); /* deleteMax */
+         percolateDownMaxHeap( a, 0, i, false );
+      }
    }
 
    public static <AnyType extends Comparable<? super AnyType>>
    void heapSortReverse( AnyType [ ] a )
    {
-      // COMPLETER
+      for( int i = a.length / 2 - 1; i >= 0; i-- ) /* buildHeap */
+         percolateDownMinHeap( a, i, a.length, false );
+      for( int i = a.length - 1; i > 0; i-- )
+      {
+         swapReferences( a, 0, i ); /* deleteMax */
+         percolateDownMinHeap( a, 0, i, false );
+      }
    }
 
    private static <AnyType> 
