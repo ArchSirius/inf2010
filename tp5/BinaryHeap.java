@@ -1,3 +1,6 @@
+import java.util.Stack;
+import java.util.Vector;
+
 public class BinaryHeap<AnyType extends Comparable<? super AnyType>> //implements PriorityQueue<AnyType>
 {
    @SuppressWarnings("unchecked")
@@ -165,99 +168,69 @@ public class BinaryHeap<AnyType extends Comparable<? super AnyType>> //implement
 
    public String nonRecursivePrintFancyTree()
    {
-/*      String outputString = "";
-      int index = 1;
+      // 0. Integer est incompatible avec AnyType pour certaines opérations
+      // 1. Conditions initiales
+      // 2. Pile tampon // boucle sur la pile
+      // 3. Définir un vecteur de position left/right pour l'affichage
+      // 4. Ajouter l'index de la racine
+      // 5. Ajouter les index de RightChild puis LeftChild (dans cet ordre)
+      // 6. Pour l'affichage, verifier si left ou right
+      // 7. Afficher!
+      // 8. Aller prendre un bon thé...
 
+      String outputString = "";  // Fancy
+      int index = 1; // Initialement la racine
+      Stack<Integer> pile = new Stack<Integer>();  // Tampon
 
-      // COMPLETER
+      pile.push(index);
 
-      
-     
-      outputString += "";
-      int i = 0;
-      int z = 0;
-            
-      int j = 0;
-      int endindex = 0 ;
-      while(array[leftChild(endindex,true) + 1] != null)
-            { 
-                  endindex = leftChild(endindex,true) + 1;
-               
-            }
-            String _prefix = "";
-            String _preprefix = "";
-            String _prepreprefix = "";
-            String _preprepreprefix = "";
-            boolean yes = false;
-      while(true){
-            outputString += _prefix + "|__" + array[index] + "\n";
-          
-          
-            boolean isLeaf = index > currentSize/2;
-            
-
-            
-            _prepreprefix = _prefix;
-            z=0;
-            while(array[leftChild(index, true)] != null)
-            {
-                
-                  
-                  _preprefix = _prefix;
-                  if( index%2 == 0 )
-                        _prefix += "|  "; // un | et trois espace
-                  else
-                        _prefix += "   " ; // quatre espaces
-                  outputString += _prefix + "|__" + array[leftChild(index,true)] + "\n";
-                  index = leftChild(index,true);
-                  z++;
-                  
-            }
-            
-            
-            
-            isLeaf = index > currentSize/2;
-            if (array[index+1] == null) outputString += _prefix + "|__"  + "null\n";
-            
-            index /=2;
-            if(array[leftChild(index/2,true)] != null)
-                   _prefix = _preprefix;
-            
-            while(array[leftChild(index,true) + 1] != null)
-            {  
-               
-                  _preprefix = _prefix;
-                  if( index%2 == 0 )
-                        _prefix += "|  "; // un | et trois espace
-                  else
-                        _prefix += "   " ; // quatre espaces
-                  
-                  outputString += _prefix + "|__" + array[leftChild(index,true) +1 ] + "\n";
-                  index = leftChild(index,true) + 1;
-                  z++;
-            }
-            //if(z == 2) _prepreprefix = _prefix;
-            if(array[leftChild(index/2,true)] != null && array[leftChild(index/2,true) + 1] != null)
-                _prefix = _preprefix;
-            if(index == endindex) break;
-            if (array[index] == null) outputString += _prefix + "|__"  + "null\n";
-            index /=2;
-            
-        
-            if(index % 2 !=0)
-               index /=2;
-            
-            while(index%2 == 0)
-               index++;   
-             i++;
-             if(z ==2){_prefix += "\b\b\b";} // si on a parcouru un sous arbre
-             if(z ==1 && i == 4){_prefix += "\b\b\b\b\b\b";} // si on a parcouru deux sous arbres
-             //if(j == 1) {_prefix = _preprepreprefix;}
+      while(!pile.empty())
+      {
+         // Cible suivante
+         Vector<Boolean> gauche = new Vector<Boolean>();   // Fancy // isLeftChild
+         index = pile.pop();
+         
+         // Si elle possede au moins un LeftChild
+         if(2 * index <= currentSize)
+         {
+            pile.push(leftChild(index, true) + 1);   // pas de verification si rightChild existe car on affiche "null"
+            pile.push(leftChild(index, true));
+         }
+         
+         // Fancy
+         // On remonte par ses parents jusqu'a la racine
+         for(int i = index; i > 0; i /= 2)
+         {
+            if(i % 2 == 0)
+               gauche.add(true);
+               // Si l'indice est pair, il est leftChild
+            else
+               gauche.add(false);
+               // Si l'indice est impair, il est rightChild (ou racine)
+         }
+         
+         // Fancy
+         // Bas en haut = droite vers gauche
+         for(int i = gauche.size() - 1; i > 0; i--)
+         {
+             if(gauche.get(i))
+                  // Branche leftChild
+                  outputString += "|  ";
+             else
+                  // Branche rightChild
+                  outputString += "   ";
+         }
+         
+         // Fancy
+         // Ajout de la valeur (Integer)
+         if(index <= currentSize)
+            outputString += "|__" + array[index] + "\n";
+         else
+            // rightChild inexistant
+            outputString += "|__" + "null" + "\n";
       }
 
-      
-      return outputString;*/
-      return null;
+      return outputString;
    }
 
    public String printFancyTree( )
