@@ -81,20 +81,23 @@ public class BinaryHeap<AnyType extends Comparable<? super AnyType>> //implement
    void percolateDownMinHeap( AnyType[] a, int hole, int size, boolean isHeap )
    {
       int child;
-      AnyType tmp = a[ hole ];
+      AnyType tmp = a[hole];
       
-      for( ; leftChild(hole, isHeap) < size; hole = child )
+      // Le trou descend
+      for(; leftChild(hole, isHeap) < size; hole = child)
       {
          child = leftChild(hole, isHeap);
-         if( child != size - 1 &&
-         a[ child + 1 ].compareTo( a[ child ])<0)
+         // Selection de l'enfant cible
+         if(child != size - 1 &&
+         a[child + 1].compareTo(a[child]) < 0)
             child++;
-         if( a[ child ].compareTo( tmp ) < 0 )
-            a[ hole ] = a[ child ];
+         // Percolation
+         if(a[child].compareTo(tmp) < 0)
+            a[hole] = a[child];
          else
             break;
       }
-      a[ hole ] = tmp;
+      a[hole] = tmp;
    }
 
    /**
@@ -107,43 +110,50 @@ public class BinaryHeap<AnyType extends Comparable<? super AnyType>> //implement
    void percolateDownMaxHeap( AnyType[] a, int hole, int size, boolean isHeap )
    {
       int child;
-      AnyType tmp = a[ hole ];
+      AnyType tmp = a[hole];
       
-      for( ; leftChild(hole, isHeap) < size; hole = child )
+      // Le trou descend
+      for(; leftChild(hole, isHeap) < size; hole = child)
       {
          child = leftChild(hole, isHeap);
-         if( child != size - 1 &&
-         a[ child + 1 ].compareTo( a[ child ])>0)
+         // Selection de l'enfant cible
+         if(child != size - 1 &&
+         a[child + 1].compareTo(a[child]) > 0)
             child++;
-         if( a[ child ].compareTo( tmp ) > 0 )
-            a[ hole ] = a[ child ];
+         // Percolation
+         if(a[child].compareTo(tmp) > 0)
+            a[hole] = a[child];
          else
             break;
       }
-      a[ hole ] = tmp;
+      a[hole] = tmp;
    }
 
    public static <AnyType extends Comparable<? super AnyType>>
    void heapSort( AnyType [ ] a )
    {
-      for( int i = a.length / 2 - 1; i >= 0; i-- ) /* buildHeap */
-         percolateDownMaxHeap( a, i, a.length, false );
-      for( int i = a.length - 1; i > 0; i-- )
+      // Monceau de tri
+      for(int i = a.length / 2 - 1; i >= 0; i--)
+         percolateDownMaxHeap(a, i, a.length, false);
+      // Tableau trie
+      for(int i = a.length - 1; i > 0; i--)
       {
-         swapReferences( a, 0, i ); /* deleteMax */
-         percolateDownMaxHeap( a, 0, i, false );
+         swapReferences(a, 0, i);
+         percolateDownMaxHeap(a, 0, i, false);
       }
    }
 
    public static <AnyType extends Comparable<? super AnyType>>
    void heapSortReverse( AnyType [ ] a )
    {
-      for( int i = a.length / 2 - 1; i >= 0; i-- ) /* buildHeap */
-         percolateDownMinHeap( a, i, a.length, false );
-      for( int i = a.length - 1; i > 0; i-- )
+      // Monceau de tri
+      for(int i = a.length / 2 - 1; i >= 0; i--)
+         percolateDownMinHeap(a, i, a.length, false);
+      // Tableau trie
+      for(int i = a.length - 1; i > 0; i--)
       {
-         swapReferences( a, 0, i ); /* deleteMax */
-         percolateDownMinHeap( a, 0, i, false );
+         swapReferences(a, 0, i);
+         percolateDownMinHeap(a, 0, i, false);
       }
    }
 

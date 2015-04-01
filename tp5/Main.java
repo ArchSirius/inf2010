@@ -76,24 +76,28 @@ public class Main
       performInsert(aleatoire, 100, 1000, 100);
       performTab(aleatoire, 100, 1000, 100);
 
-      System.out.println("\nInsertion ordonnee");
-      performInsert(ordonne, 100, 1000, 100);
-      System.out.println("\nTableau ordonne");
-      performTab(ordonne, 100, 1000, 100);
+      System.out.println("");
 
-      System.out.println("\nInsertion inversee");
-      performInsert(inverse, 100, 1000, 100);
-      System.out.println("\nTableau inverse");
-      performTab(inverse, 100, 1000, 100);
+      System.out.println("Insertion ordonnee");
+      System.out.println(performInsert(ordonne, 100, 1000, 100));
+      System.out.println("Tableau ordonne");
+      System.out.println(performTab(ordonne, 100, 1000, 100));
 
-      System.out.println("\nInsertion non-ordonnee");
-      performInsert(aleatoire, 100, 1000, 100);
-      System.out.println("\nTableau non-ordonne");
-      performTab(aleatoire, 100, 1000, 100);
+      System.out.println("Insertion inversee");
+      System.out.println(performInsert(inverse, 100, 1000, 100));
+      System.out.println("Tableau inverse");
+      System.out.println(performTab(inverse, 100, 1000, 100));
+
+      System.out.println("Insertion non-ordonnee");
+      System.out.println(performInsert(aleatoire, 100, 1000, 100));
+      System.out.println("Tableau non-ordonne");
+      System.out.println(performTab(aleatoire, 100, 1000, 100));
 
    }
 
-   private static void performInsert(Integer[] a, int start, int stop, int offset){
+   private static String performInsert(Integer[] a, int start, int stop, int offset){
+      String outputString = "";
+
       long debut = 0;
       long fin = 0;
       int numItems = 0;
@@ -107,11 +111,15 @@ public class Main
          }
          fin = System.nanoTime() - debut;
          // Fin de la zone de controle
-         System.out.println(numItems + "\t" + fin);
+         outputString += numItems + "\t" + fin + "\n";
       }
+
+      return outputString;
    }
 
-   private static void performTab(Integer[] a, int start, int stop, int offset){
+   private static String performTab(Integer[] a, int start, int stop, int offset){
+      String outputString = "";
+
       long debut = 0;
       long fin = 0;
       int numItems = 0;
@@ -127,8 +135,10 @@ public class Main
          heap = new BinaryHeap<Integer>( tab );
          fin = System.nanoTime() - debut;
          // Fin de la zone de controle
-         System.out.println(numItems + "\t" + fin);
+         outputString += numItems + "\t" + fin + "\n";
       }
+
+      return outputString;
    }
 
    private static <AnyType> 
