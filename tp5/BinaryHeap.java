@@ -220,7 +220,7 @@ public class BinaryHeap<AnyType extends Comparable<? super AnyType>> //implement
          }
          
          // Fancy
-         // Bas en haut = droite vers gauche
+         // Haut en bas = gauche vers droite
          for(int i = gauche.size() - 1; i > 0; i--)
          {
              if(gauche.get(i))
