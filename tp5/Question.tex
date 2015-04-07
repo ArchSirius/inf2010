@@ -1,0 +1,191 @@
+\documentclass[12pt,letterpaper]{article}
+
+%Langue et caractères spéciaux
+\usepackage[french]{babel} 
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[utf8]{inputenc}
+\usepackage{textcomp}
+\usepackage{siunitx}
+\usepackage{lipsum}
+%Marges
+\usepackage[top=2cm, bottom=2cm, left=2cm, right=2cm, columnsep=20pt]{geometry}
+\usepackage{scrextend}
+%Graphiques
+\usepackage{graphicx}
+\usepackage{hyperref}
+\hypersetup{
+	colorlinks=true,
+	urlcolor=blue,
+	linkcolor=black}
+\usepackage{pgfplots}
+\usepackage{color}
+%Titres de section/sous-section
+\renewcommand{\thesection}{}
+
+%%%%%%%%%%%%
+% Document %
+%%%%%%%%%%%%
+\begin{document}
+
+\begin{figure}[ht]
+\centering
+  \begin{tikzpicture}[scale = 1.5]
+    \pgfplotsset{every axis legend/.append style={
+    anchor=north west}}
+    \begin{axis}[
+      xmin=0,xmax=1100,
+      ymin=0,ymax=220000,
+      xlabel={Nombre d'éléments},
+      xlabel near ticks,
+      x tick label style={/pgf/number format/1000 sep=},
+      ylabel={Temps d'exécution (ns)},
+      legend style={draw=none, font=\tiny},
+      legend pos=north west,
+      legend cell align=left
+    ]
+    
+    %Insertion ordonnee
+    \addplot[
+      color=red,
+      mark=o,
+      ]
+      coordinates {
+      (100,10813)
+      (200,28661)
+      (300,51511)
+      (400,67188)
+      (500,96478)
+      (600,110331)
+      (700,130823)
+      (800,145354)
+      (900,193670)
+      (1000,213149)
+	  };
+    
+    %Insertion inversee
+    \addplot[
+      color=green,
+      mark=o,
+      ]
+      coordinates {
+      (100,10619)
+      (200,29703)
+      (300,50074)
+      (400,65590)
+      (500,96181)
+      (600,115293)
+      (700,131131)
+      (800,144711)
+      (900,187065)
+      (1000,208423)
+	  };
+	
+    %Insertion non-ordonnee
+    \addplot[
+      color=blue,
+      mark=o,
+      ]
+      coordinates {
+      (100,10768)
+      (200,27657)
+      (300,46901)
+      (400,62667)
+      (500,93789)
+      (600,111674)
+      (700,128763)
+      (800,143667)
+      (900,188771)
+      (1000,204569)
+	  };	
+	
+    %Tableau ordonne
+    \addplot[
+      color=red,
+      mark=square,
+      ]
+      coordinates{
+      (100,8727)
+      (200,15448)
+      (300,30430)
+      (400,31123)
+      (500,37030)
+      (600,47976)
+      (700,57084)
+      (800,62118)
+      (900,71333)
+      (1000,79049)
+      };
+    
+
+    
+    %Tableau inverse
+    \addplot[
+      color=green,
+      mark=square,
+      ]
+      coordinates{
+      (100,9069)
+      (200,21434)
+      (300,30952)
+      (400,31726)
+      (500,40760)
+      (600,46916)
+      (700,54699)
+      (800,64171)
+      (900,71250)
+      (1000,79405)
+      };
+    
+    
+    
+    %Tableau non-ordonne
+    \addplot[
+      color=blue,
+      mark=square,
+      ]
+      coordinates{
+      (100,8385)
+      (200,16653)
+      (300,24328)
+      (400,33184)
+      (500,36579)
+      (600,48609)
+      (700,55665)
+      (800,62716)
+      (900,71542)
+      (1000,79208)
+      };
+    
+    \legend{
+      Insertion -- ordonnée,
+      Insertion -- inversee,
+      Insertion -- désordre,
+      Tableau -- ordonné,
+      Tableau -- inverse,
+      Tableau -- désordre}
+    \end{axis}
+    
+  \end{tikzpicture}
+\caption{Linéarité du temps d'exécution de la construction de monceaux, par insertion et par tableau, en ordre, en ordre inverse, et en désordre.}
+\label{fig:exec}
+\end{figure}
+
+~\\
+La figure \ref{fig:exec} présente les temps d'exécutions demandés en nanosecondes. Les données ont été obtenues consécutivement avec une réinitialisation des conteneurs 
+entre chaque itération, mais en conservant les mêmes données source. Afin de garantir la validité des données, une simulation de collecte de données fut nécessaire avant la véritable collecte de données, 
+afin de garantir que toutes les itérations auront le même accès à la mémoire cache. En effet, sans cette simulation, les données des deux premiers blocs de calcul, 
+\textit{Insertion -- ordonnée} et \textit{Tableau -- ordonné}, ne suivaient pas le même tendance que les autres données. Également, le bloc de contrôle (voir code) 
+est défini pour n'effectuer que les opérations strictement nécessaires, afin de garantir qu'aucun facteur externe n'affecte le temps d'exécution d'une itération. 
+La cohésion des tests est forte, car ils utilisent tous les mêmes données pour une même exécution du programme. \\
+\\
+Remarquons le regroupement des données en deux catégories 
+\begin{itemize}
+\item le groupe supérieur constitue les monceaux crées par insertion;
+\item le groupe inférieur constitue les monceaux crées par un tableau.
+\end{itemize}
+~\\
+Outre le mode de création du monceau, notons que l'ordre utilisé est non-significatif dans le temps d'exécution. On remarque une tendance \textbf{linéaire} croissante du temps d'exécution en fonction du nombre d'éléments dans le monceau. Cette tendance semble converger bien plus dans le cas de la création d'un monceau par tableau que dans 
+le cas de l'insertion successive.
+
+\end{document}
