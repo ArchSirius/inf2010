@@ -49,15 +49,20 @@ public class Maze{
 	}
 
 	public void generate(){
+		// Pour chaque mur permuté
 		for(int i = 0; i < maze.size() - 1; i++){
 			Wall wall = maze.get(i);
+			// Si ses deux pièces ne sont pas reliées
 			if(ds.find(wall.room1) != ds.find(wall.room2)){
+				// Retirer le mur
 				maze.remove(wall);
 				Room room1 = graph.get(wall.room1);
 				Room room2 = graph.get(wall.room2);
+				// Relier
 				ds.union(room1.id, room2.id);
 				room1.paths.add(room2.id);
 				room2.paths.add(room1.id);
+				// Rester au même index suite à un retrait
 				i--;
 			}
 		}
