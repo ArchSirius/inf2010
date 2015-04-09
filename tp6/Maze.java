@@ -32,6 +32,10 @@ public class Maze{
 		generator = new Random(seed);
 		for(int i = 0; i < maze.size(); ++i){
 			// A completer
+			int rnd = -1;
+			while(rnd <0)
+				rnd = generator.nextInt() % maze.size();
+			swapWall(maze, i, rnd);
 		}
 
 		// Initialisation des structures annexes
@@ -39,8 +43,20 @@ public class Maze{
 		path = new Vector<Integer>();
 	}
 
+	private void swapWall(Vector<Wall> maze, int i, int j){
+		Wall tmp = maze.get(i);
+		maze.set(i, maze.get(j));
+		maze.set(j, tmp);
+	}
+
 	public void generate(){
 		// A completer
+		for(int i = 0; i < maze.size(); i++){
+			if(ds.find(maze.get(i).room1) != -1 && ds.find(maze.get(i).room2) != -1){
+				maze.remove(maze.get(i));
+				ds.union(maze.get(i).room1, maze.get(i).room2);
+			}	
+		}
 	}
 
 	public void solve(){
