@@ -32,9 +32,9 @@ public class Maze{
 		generator = new Random(seed);
 		for(int i = 0; i < maze.size(); ++i){
 			// A completer
-			int rnd = -1;
+			int rnd = generator.nextInt() % maze.size();
 			while(rnd <0)
-				rnd = generator.nextInt() % maze.size();
+				rnd += maze.size();
 			swapWall(maze, i, rnd);
 		}
 
@@ -52,10 +52,11 @@ public class Maze{
 	public void generate(){
 		// A completer
 		for(int i = 0; i < maze.size() - 1; i++){
-			if(ds.find(maze.get(i).room1) != ds.find(maze.get(i).room2)){
-				maze.remove(maze.get(i));
-				Room room1 = graph.get(maze.get(i).room1);
-				Room room2 = graph.get(maze.get(i).room2);
+			Wall wall = maze.get(i);
+			if(ds.find(wall.room1) != ds.find(wall.room2)){
+				maze.remove(wall);
+				Room room1 = graph.get(wall.room1);
+				Room room2 = graph.get(wall.room2);
 				ds.union(room1.id, room2.id);
 				room1.paths.add(room2.id);
 				room2.paths.add(room1.id);
