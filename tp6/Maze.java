@@ -51,11 +51,16 @@ public class Maze{
 
 	public void generate(){
 		// A completer
-		for(int i = 0; i < maze.size(); i++){
-			if(ds.find(maze.get(i).room1) != -1 && ds.find(maze.get(i).room2) != -1){
+		for(int i = 0; i < maze.size() - 1; i++){
+			if(ds.find(maze.get(i).room1) != ds.find(maze.get(i).room2)){
 				maze.remove(maze.get(i));
-				ds.union(maze.get(i).room1, maze.get(i).room2);
-			}	
+				Room room1 = graph.get(maze.get(i).room1);
+				Room room2 = graph.get(maze.get(i).room2);
+				ds.union(room1.id, room2.id);
+				room1.paths.add(room2.id);
+				room2.paths.add(room1.id);
+				i--;
+			}
 		}
 	}
 
