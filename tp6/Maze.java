@@ -31,7 +31,6 @@ public class Maze{
 		// On trie les murs de maniere aleatoire
 		generator = new Random(seed);
 		for(int i = 0; i < maze.size(); ++i){
-			// A completer
 			int rnd = generator.nextInt() % maze.size();
 			while(rnd <0)
 				rnd += maze.size();
@@ -50,7 +49,6 @@ public class Maze{
 	}
 
 	public void generate(){
-		// A completer
 		for(int i = 0; i < maze.size() - 1; i++){
 			Wall wall = maze.get(i);
 			if(ds.find(wall.room1) != ds.find(wall.room2)){
@@ -66,7 +64,31 @@ public class Maze{
 	}
 
 	public void solve(){
-		// A completer
+		// Départ
+		Room root = graph.get(0);
+		solve(root, root);
+	}
+
+	private Boolean solve(Room caller, Room room){
+		// Est-ce l'arrivée?
+		if(room.id == LASTROOM){
+			path.add(room.id);
+			return true;
+		}
+		// Vérifier les pièces adjacentes...
+		for(int adj : room.paths){
+			// ... mais pas celle qui vient appèle celle-ci
+			if(adj != caller.id){
+				// Est que l'arrivée est trouvée?
+				if(solve(room, graph.get(adj))){
+					path.add(room.id);
+					return true;
+				}
+				// Sinon, vérifier un autre chemin
+			}
+		}
+		// Si aucune n'est reliée à l'arrivée, remonter
+		return false;
 	}
 
 	public class Wall{
